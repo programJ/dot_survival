@@ -4,9 +4,20 @@ import time
 import sys
 import random
 
+def displyStart(screen):
+	background = pygame.Surface(screen.get_size())
+	background = background.convert()
+	background.fill((250, 0, 0))
+	return background
+
+def displyEnd(screen, background):
+	screen.blit(background, (0, 0))
+	pygame.display.flip()		
+
+
 def text_to_screen(screen, background, toprint, size, x=0, y=0):	
 	# Display some text
-	font = pygame.font.Font('/home/pranjal/Downloads/wps-office_10.1.0.5672~a21_x86_64/fonts/FZKTK.TTF', size)
+	font = pygame.font.Font('./FZKTK.TTF', size)
 	text = font.render(toprint, 2, (250, 250, 250))
 	textpos = text.get_rect()
 	#textpos.centerx = background.get_rect().centerx
@@ -21,7 +32,7 @@ def collision(x,y):
 
 def game(screen):
 	# 3 - Load images
-		player = pygame.image.load("/home/pranjal/Pranjal/fun_my_games/green_square.png")
+		player = pygame.image.load("./green_square.png")
 		Vx=0.1
 		Vy=0.1
 		vx=0
@@ -72,15 +83,13 @@ def game(screen):
 			    		exit(0) 
 
 		print "game over"
-		background = pygame.Surface(screen.get_size())
-		background = background.convert()
-		background.fill((250, 0, 0))
 
+		background=displyStart(screen)
 		background=text_to_screen(screen, background, "Game Over", 50)
 		background=text_to_screen(screen, background, "You have scored: "+str(score), 20, 50, 50)
 		background=text_to_screen(screen, background, "Play again: (Yes : space 	No : press backspace): ", 20, 10, 350)
-		screen.blit(background, (0, 0))
-		pygame.display.flip()
+		displyEnd(screen, background)
+
 		return
 
 
@@ -89,16 +98,12 @@ if __name__ == '__main__':
 	width, height = 640, 480
 	screen=pygame.display.set_mode((width, height))
 
-	background = pygame.Surface(screen.get_size())
-	background = background.convert()
-	background.fill((250, 0, 0))
+	background=displyStart(screen)
 	background=text_to_screen(screen, background, "The Dot survival", 50)
 	background=text_to_screen(screen, background, "Star playing	(press space) ", 30, 10, 250)
 	background=text_to_screen(screen, background, "Exit game	(press backspace): ", 20, 10, 300)
-	screen.blit(background, (0, 0))
-	pygame.display.flip()		
+	displyEnd(screen, background)
 
-	
 	while 1:
 		will=pygame.key.get_pressed()
 		if will[K_SPACE]:
